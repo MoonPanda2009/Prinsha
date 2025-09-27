@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You - Page 2 💕</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 15px;
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.1);
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #ff6f91;
+      color: white;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ff4a6e;
+    }
+
+    /* Floating stars */
+    .star {
+      position: absolute;
+      font-size: 20px;
+      color: yellow;
+      animation: rise 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-700px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Some Things I Want You to Remember ✨</h1>
+  
+  <div class="card">💖 You are loved more than you know.</div>
+  <div class="card">🌸 Your smile makes everything brighter.</div>
+  <div class="card">🌈 Even storms pass — sunshine always comes.</div>
+  <div class="card">⭐ You are stronger than your struggles.</div>
+  <div class="card">🌍 The world is better because of you.</div>
+
+<button class="btn" onclick="location.href='index.html'">⬅ Back</button>
+<button class="btn" onclick="location.href='page3.html'">Next Page ➡️</button>
+
+  <script>
+    function createStar() {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.textContent = "⭐";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.bottom = "0px";
+      star.style.fontSize = 15 + Math.random() * 20 + "px";
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 6000);
+    }
+    setInterval(createStar, 500);
+  </script>
+</body>
+</html>

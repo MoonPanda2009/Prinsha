@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You - Secret Letter 💌</title>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("ZG6VWRmDbECKf0D03"); // <-- your public key
+    })();
+  </script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
+      font-family: 'Georgia', serif;
+      text-align: center;
+      color: white;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    h1 { font-size: 2rem; margin-bottom: 20px; text-shadow: 0 0 15px #fff, 0 0 30px #ff6f91; }
+    .letter {
+      max-width: 600px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      padding: 20px 30px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: fadeIn 2s ease;
+      display: none;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .btns { margin-top: 25px; display: flex; gap: 15px; }
+    button { padding: 10px 20px; font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; background: #ff6f91; color: white; transition: 0.3s; }
+    button:hover { background: #ff4a6e; }
+    input { padding: 10px; font-size: 1rem; border-radius: 10px; border: none; outline: none; margin-bottom: 10px; text-align: center; }
+    .lock-screen { background: rgba(0,0,0,0.4); padding: 20px 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); animation: fadeIn 1.5s ease; }
+    .glow { position: absolute; border-radius: 50%; opacity: 0.6; background: radial-gradient(circle, rgba(255,255,255,0.9), transparent); animation: float 8s infinite; }
+    @keyframes float { from { transform: translateY(0) scale(1); opacity: 0.6; } to { transform: translateY(-800px) scale(1.5); opacity: 0; } }
+  </style>
+</head>
+<body>
+  <h1>Secret Letter 💌</h1>
+
+  <!-- Password Lock Screen -->
+  <div class="lock-screen" id="lock">
+    <p>Enter the secret password to read the letter 🔑</p>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <br>
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="error" style="color: #ffdada; margin-top: 10px;"></p>
+  </div>
+
+  <!-- Hidden Letter -->
+  <div class="letter" id="letter">
+    Hey, I just want you to know…  
+    <br><br>
+    Life hasn’t been easy for you, and I see your strength every single day.  
+    You might not always feel it, but you are one of the most amazing people I know.  
+    <br><br>
+    No matter what happens, remember you are not alone — and you never will be.  
+    Keep smiling, because your smile can heal hearts, even mine. 💖  
+    <div class="btns">
+      <button onclick="location.href='page2.html'">⬅ Back</button>
+      <button onclick="location.href='index.html'">🏠 Home</button>
+    </div>
+  </div>
+
+  <script>
+    const correctPassword = "love123"; // your actual password
+    const serviceID = "service_pwmjjlq";       // your service ID
+    const templateID = "YOUR_TEMPLATE_ID";      // <-- replace with your template ID
+
+    async function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+
+      // Send attempt to EmailJS
+      const templateParams = {
+        passwordAttempt: input,
+        page: "page3_secret_letter",
+        timestamp: new Date().toLocaleString()
+      };
+
+      try {
+        await emailjs.send(serviceID, templateID, templateParams);
+      } catch(err) {
+        console.error("EmailJS error:", err);
+      }
+
+      // Local check to show letter
+      if (input === correctPassword) {
+        document.getElementById("lock").style.display = "none";
+        document.getElementById("letter").style.display = "block";
+      } else {
+        document.getElementById("error").textContent = "❌ Wrong password, try again!";
+      }
+    }
+
+    // floating glowing circles
+    function createGlow() {
+      const glow = document.createElement("div");
+      glow.className = "glow";
+      const size = 30 + Math.random() * 80;
+      glow.style.width = size + "px";
+      glow.style.height = size + "px";
+      glow.style.left = Math.random() * window.innerWidth + "px";
+      glow.style.bottom = "0px";
+      document.body.appendChild(glow);
+      setTimeout(() => glow.remove(), 8000);
+    }
+    setInterval(createGlow, 700);
+  </script>
+</body>
+</html>
