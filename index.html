@@ -2,68 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special SPA 💖</title>
 <style>
 body {
   margin:0;
   font-family:'Georgia', serif;
-  overflow:hidden;
   color:white;
   text-align:center;
   position:relative;
   background: linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
-  background-size: 400% 400%;
+  background-size:400% 400%;
   animation: gradientBG 15s ease infinite;
 }
 @keyframes gradientBG {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 
-/* Sections full screen */
 section {
   display: none;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height:100vh;
+  width:100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding:10px;
+  box-sizing:border-box;
 }
 section.active { display:flex; }
 
-/* Page 1 slideshow */
-#slideshow { width:300px; height:300px; margin:0 auto; border-radius:20px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.5); position:relative; background:rgba(0,0,0,0.2); }
+/* Page 1 */
+#slideshow { width:90%; max-width:300px; aspect-ratio:1/1; margin:0 auto; border-radius:20px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.5); position:relative; background:rgba(0,0,0,0.2); }
 #slideshow img { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; transition:opacity 0.5s ease; }
-#message { margin-top:15px; font-size:1.2rem; text-shadow:0 0 5px #000; }
+#message { margin-top:15px; font-size:1rem; text-shadow:0 0 5px #000; }
 
-/* Page 2 (cards) */
-#page2 h1 { color:white; margin-bottom:20px; text-shadow:0 2px 5px rgba(0,0,0,0.3); }
-.card { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); border-radius:15px; padding:15px 25px; margin:10px; font-size:1.2rem; font-weight:bold; color:#fff; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: transform 0.3s; }
-.card:hover { transform: scale(1.1); }
+/* Page 2 */
+#page2 h1 { font-size:1.5rem; margin-bottom:20px; text-shadow:0 2px 5px rgba(0,0,0,0.3);}
+.card { background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); border-radius:15px; padding:15px 20px; margin:10px; font-size:1rem; font-weight:bold; color:#fff; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: transform 0.3s; }
+.card:hover { transform: scale(1.05); }
 
 /* Buttons */
 button {
-  margin-top:15px;
-  padding:10px 25px;
-  font-size:1rem;
+  margin-top:10px;
+  padding:8px 20px;
+  font-size:0.9rem;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   cursor:pointer;
   background: linear-gradient(45deg,#ff6f91,#ff94c2);
   color:white;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   transition:0.3s;
 }
-button:hover {
-  background: linear-gradient(45deg,#ff4a6e,#ff6f91);
-  box-shadow:0 6px 20px rgba(0,0,0,0.5);
-}
+button:hover { background: linear-gradient(45deg,#ff4a6e,#ff6f91); }
 
-/* Floating glowing circles (page1) */
-.glow { position:absolute; border-radius:50%; opacity:0.6; background:radial-gradient(circle,rgba(255,255,255,0.9),transparent); animation:float 8s infinite; }
+/* Glow & Stars */
+.glow, .star { position:absolute; border-radius:50%; opacity:0.6; }
+.star { font-size:16px; color:yellow; animation: rise 6s linear infinite; opacity:0.8;}
 @keyframes float { from{transform:translateY(0) scale(1); opacity:0.6;} to{transform:translateY(-800px) scale(1.5); opacity:0;} }
+@keyframes rise { from{transform:translateY(0); opacity:1;} to{transform:translateY(-700px); opacity:0;} }
 
-/* Floating stars (page2) */
-.star { position:absolute; font-size:20px; color:yellow; animation:rise 6s linear infinite; opacity:0.8; }
-@keyframes rise { from{ transform:translateY(0); opacity:1;} to{ transform:translateY(-700px); opacity:0;} }
+/* Responsive Text */
+@media (max-width:600px){
+  #message { font-size:0.9rem; }
+  #page2 h1 { font-size:1.3rem; }
+  .card { font-size:0.9rem; padding:10px 15px; }
+  button { font-size:0.8rem; padding:6px 15px; }
+}
 </style>
 </head>
 <body>
@@ -72,6 +75,7 @@ button:hover {
 <audio id="bgAudio" loop autoplay>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
+<button onclick="toggleSound()" style="position:fixed; top:10px; right:10px; z-index:999;">🔊</button>
 
 <!-- Page 1 -->
 <section id="page1" class="active">
@@ -85,7 +89,6 @@ button:hover {
     </div>
     <div id="message">You always make me smile 😊</div>
     <button onclick="nextSlide()">Next Slide ➡</button>
-    <button onclick="toggleSound()">🔊 Play/Pause Music</button>
     <button onclick="showPage2()">Next Page 2 ➡</button>
   </div>
 </section>
@@ -120,48 +123,49 @@ function nextSlide() {
   document.getElementById('message').textContent = messages[current];
 }
 
-// Floating glowing circles (Page1)
+// Glow
 function createGlow() {
   const glow = document.createElement("div");
   glow.className = "glow";
-  const size = 30 + Math.random()*80;
+  const size = 20 + Math.random()*60;
   glow.style.width = size+"px";
   glow.style.height = size+"px";
   glow.style.left = Math.random()*window.innerWidth+"px";
   glow.style.bottom = "0px";
+  glow.style.background = "radial-gradient(circle,#fff,transparent)";
+  glow.style.opacity = "0.5";
+  glow.style.animation = "float 8s linear";
   document.body.appendChild(glow);
   setTimeout(()=>glow.remove(),8000);
 }
 setInterval(createGlow,700);
 
-// Floating stars (Page2)
+// Stars for page 2
 function createStar() {
   const star = document.createElement("div");
   star.className = "star";
   star.textContent = "⭐";
   star.style.left = Math.random()*window.innerWidth+"px";
   star.style.bottom = "0px";
-  star.style.fontSize = 15 + Math.random()*20 + "px";
+  star.style.fontSize = 12 + Math.random()*15 + "px";
   document.body.appendChild(star);
   setTimeout(()=>star.remove(),6000);
 }
 
-// Music control
+// Music
 const audio = document.getElementById('bgAudio');
-function toggleSound() { if(audio.paused) audio.play(); else audio.pause(); }
+function toggleSound(){ if(audio.paused) audio.play(); else audio.pause(); }
 
 // Page navigation
-function showPage2() {
+function showPage2(){
   document.getElementById('page1').classList.remove('active');
   document.getElementById('page2').classList.add('active');
   setInterval(createStar,500);
 }
-function showPage1() {
+function showPage1(){
   document.getElementById('page2').classList.remove('active');
   document.getElementById('page1').classList.add('active');
 }
 </script>
-
 </body>
 </html>
-
